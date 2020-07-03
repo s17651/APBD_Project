@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace AdvertApi.services.tools
 {
-    public class PasswordConfig
+    public class PasswordTool
     {
         public static string GenerateHashedPassword(string password, string salt)
         {   

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace AdvertApi.services
 {
-    interface IDbAdvertService
+    public interface IDbAdvertService
     {
         public Client AddClient(AddClientRequest request);
 

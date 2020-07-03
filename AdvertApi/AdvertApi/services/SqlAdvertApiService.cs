@@ -3,6 +3,7 @@ using AdvertApi.DTOs.Responses;
 using AdvertApi.Exceptions;
 using AdvertApi.Models;
 using AdvertApi.services.tools;
+using AdvertApi.Services.tools;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -92,9 +93,9 @@ namespace AdvertApi.services
                 throw new LoginAlreadyExistsException("Login already taken.");
             }
 
-            var salt = PasswordConfig.GenerateSalt();
-            var hashedPassword = PasswordConfig.GenerateHashedPassword(request.Password, salt);
-
+            var salt = PasswordTool.GenerateSalt();
+            var hashedPassword = PasswordTool.GenerateHashedPassword(request.Password, salt);
+            
             var newClient = new Client
             {
                 FirstName = request.FirstName,
@@ -105,10 +106,11 @@ namespace AdvertApi.services
                 Password = hashedPassword,
                 Salt = salt
             };
+            
 
             _context.Attach(newClient);
             _context.Add(newClient);
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
 
             return newClient;
         }
@@ -137,7 +139,7 @@ namespace AdvertApi.services
             }
 
             //czy podane hasło jest właściwe
-            var hashedPassword = PasswordConfig.GenerateHashedPassword(request.Password, client.Salt);
+            var hashedPassword = PasswordTool.GenerateHashedPassword(request.Password, client.Salt);
             if (hashedPassword != client.Password)
             {
                 throw new LoginOrPasswordException("Login or password is incorrect.");
@@ -156,6 +158,7 @@ namespace AdvertApi.services
             var token = new JwtSecurityToken
                 (
                     issuer: "s17651",
+                    audience: "clients",
                     claims: claims,
                     expires: DateTime.Now.AddMinutes(30),
                     signingCredentials: creds
@@ -185,7 +188,7 @@ namespace AdvertApi.services
             }
 
             var claims = new[]
-           {
+            {
                 new Claim(ClaimTypes.NameIdentifier, client.IdClient.ToString()),
                 new Claim(ClaimTypes.Name, client.Login),
                 new Claim(ClaimTypes.Role, "client")
@@ -197,6 +200,7 @@ namespace AdvertApi.services
             var token = new JwtSecurityToken
                 (
                     issuer: "s17651",
+                    audience: "clients",
                     claims: claims,
                     expires: DateTime.Now.AddMinutes(30),
                     signingCredentials: creds

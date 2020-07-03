@@ -76,8 +76,7 @@ namespace AdvertApi.Models
                     .IsRequired();
 
                 opt.Property(c => c.RefreshToken)
-                    .HasMaxLength(500)
-                    .IsRequired();
+                    .HasMaxLength(500);
 
                 opt.Property(c => c.Salt)
                     .HasMaxLength(100)
