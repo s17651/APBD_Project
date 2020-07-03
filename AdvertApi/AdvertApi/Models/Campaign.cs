@@ -14,7 +14,7 @@ namespace AdvertApi.Models
 
         public DateTime EndDate { get; set; }
 
-        public double PricePerSquareMeter { get; set; }
+        public decimal PricePerSquareMeter { get; set; }
 
         public int FromIdBuilding { get; set; }
 

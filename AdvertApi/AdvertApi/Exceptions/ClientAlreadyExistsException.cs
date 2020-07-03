@@ -1,0 +1,17 @@
+﻿using System;
+
+namespace AdvertApi.Exceptions
+{
+    public class ClientAlreadyExistsException : Exception
+    {
+        public ClientAlreadyExistsException(string message) 
+            : base(message)
+        {
+        }
+
+        public ClientAlreadyExistsException(string message, Exception innerException) 
+            : base(message, innerException)
+        {
+        }
+    }
+}

@@ -79,6 +79,10 @@ namespace AdvertApi.Models
                     .HasMaxLength(500)
                     .IsRequired();
 
+                opt.Property(c => c.Salt)
+                    .HasMaxLength(100)
+                    .IsRequired();
+
             });
 
             builder.Entity<Banner>(opt =>
